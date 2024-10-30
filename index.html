@@ -1,37 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <title>Hora en Barcelona</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reloj</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    /* Estilos CSS */
     body {
-      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #fff; /* Fondo blanco */
+      font-family: 'Inter', sans-serif;
       margin: 0;
+      color: #333;
     }
-    .hora {
-      font-weight: bold;
-      font-size: 30px;
-      margin-bottom: 15px;
-      text-align: right; /* Alineación del texto a la derecha */
+    #clock {
+      display: flex; /* Usar flexbox para colocar horas y minutos en línea */
+      align-items: center; /* Centrar verticalmente */
+      font-size: 5rem; /* Tamaño de letra */
+      border-radius: 15px; /* Bordes redondeados */
+      padding: 1rem; /* Espaciado interno */
+      text-align: center; /* Alinear el texto al centro */
     }
-    .ciudad {
-      text-align: right; /* Alineación del texto a la derecha */
-    }
-    p {
-      font-size: 14px;
-      margin-top: 0px;
-      margin-bottom: 0;
+    .time-segment {
+      background-color: black; /* Fondo negro */
+      color: white; /* Texto blanco */
+      padding: 0.5rem; /* Espaciado interno */
+      border-radius: 10px; /* Bordes redondeados */
+      width: 100px; /* Ancho fijo para horas y minutos */
+      text-align: center; /* Alinear el texto al centro */
+      margin: 0 0.2rem; /* Espaciado externo reducido entre horas y minutos */
     }
   </style>
-  <script>
-    function mostrarHora() {
-      var hora = new Date().toLocaleTimeString('es-ES', { hour: 'numeric', minute: 'numeric', hour12: false });
-      document.getElementById('horaActual').innerHTML = hora;
-    }
-    setInterval(mostrarHora, 1000);
-  </script>
 </head>
 <body>
-  <p class="hora" id="horaActual"></p>
-  <p class="ciudad">Barcelona, España</p>
+  <div id="clock">
+    <div class="time-segment" id="hours">00</div> <!-- Reloj de horas -->
+    <div class="time-segment" id="minutes">00</div> <!-- Reloj de minutos -->
+  </div>
+
+  <script>
+    // JavaScript para la funcionalidad del reloj
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('hours').textContent = hours; // Actualizar horas
+      document.getElementById('minutes').textContent = minutes; // Actualizar minutos
+    }
+
+    // Actualizar el reloj cada minuto
+    setInterval(updateClock, 60000);
+    // Inicializar el reloj
+    updateClock();
+  </script>
 </body>
 </html>
