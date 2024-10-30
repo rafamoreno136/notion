@@ -9,54 +9,75 @@
     /* Estilos CSS */
     body {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background-color: #fff; /* Fondo blanco */
+      background-color: #fff;
       font-family: 'Inter', sans-serif;
       font-weight: 900;
       margin: 0;
       color: #333;
     }
     #clock {
-      display: flex; /* Usar flexbox para colocar horas y minutos en línea */
-      align-items: center; /* Centrar verticalmente */
-      font-size: 5rem; /* Tamaño de letra */
-      border-radius: 15px; /* Bordes redondeados */
-      padding: 1rem; /* Espaciado interno */
-      text-align: center; /* Alinear el texto al centro */
+      display: flex;
+      align-items: center;
+      font-size: 5rem;
+      border-radius: 15px;
+      padding: 1rem;
+      text-align: center;
     }
     .time-segment {
-      background-color: black; /* Fondo negro */
-      color: white; /* Texto blanco */
-      padding: 0.5rem; /* Espaciado interno */
-      border-radius: 10px; /* Bordes redondeados */
-      width: 100px; /* Ancho fijo para horas y minutos */
-      text-align: center; /* Alinear el texto al centro */
-      margin: 0 0.2rem; /* Espaciado externo reducido entre horas y minutos */
+      background-color: black;
+      color: white;
+      padding: 0.5rem;
+      border-radius: 10px;
+      width: 100px;
+      text-align: center;
+      margin: 0 0.2rem;
+    }
+    #date {
+      margin-top: 1rem;
+      background-color: #fff; /* Fondo blanco permanente */
+      color: #000; /* Texto negro permanente */
+      border: 2px solid #000;
+      border-radius: 25px;
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      width: 120px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
   <div id="clock">
-    <div class="time-segment" id="hours">00</div> <!-- Reloj de horas -->
-    <div class="time-segment" id="minutes">00</div> <!-- Reloj de minutos -->
+    <div class="time-segment" id="hours">00</div>
+    <div class="time-segment" id="minutes">00</div>
   </div>
+  <div id="date">00/00/0000</div> <!-- Elemento de la fecha -->
 
   <script>
-    // JavaScript para la funcionalidad del reloj
     function updateClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('hours').textContent = hours; // Actualizar horas
-      document.getElementById('minutes').textContent = minutes; // Actualizar minutos
+      document.getElementById('hours').textContent = hours;
+      document.getElementById('minutes').textContent = minutes;
     }
 
-    // Actualizar el reloj cada minuto
+    function updateDate() {
+      const now = new Date();
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = now.getFullYear();
+      document.getElementById('date').textContent = `${day}/${month}/${year}`;
+    }
+
+    // Actualizar el reloj cada minuto y la fecha al iniciar
     setInterval(updateClock, 60000);
-    // Inicializar el reloj
     updateClock();
+    updateDate();
   </script>
 </body>
 </html>
