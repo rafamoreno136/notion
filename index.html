@@ -36,10 +36,13 @@
       text-align: center;
       margin: 0 0.2rem;
     }
+    /* Contenedor de la fecha con el punto parpadeante */
     #date {
-      margin-top: 0.5rem;
-      background-color: #fff; /* Fondo blanco permanente */
-      color: #000; /* Texto negro permanente */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #000;
+      color: #fff;
       border: 1.5px solid #000;
       border-radius: 25px;
       padding: 0.5rem 1.5rem;
@@ -47,6 +50,24 @@
       font-weight: 500;
       width: 120px;
       text-align: center;
+      gap: 0.5rem;
+    }
+    /* Punto rojo parpadeante */
+    .blinking-dot {
+      width: 12px;
+      height: 12px;
+      background-color: white;
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+    /* Animación de parpadeo */
+    @keyframes blink {
+      0%, 50%, 100% {
+        opacity: 1;
+      }
+      25%, 75% {
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -55,7 +76,12 @@
     <div class="time-segment" id="hours">00</div>
     <div class="time-segment" id="minutes">00</div>
   </div>
-  <div id="date">00/00/0000</div> <!-- Elemento de la fecha -->
+
+  <!-- Pastilla negra con la fecha y el punto parpadeante -->
+  <div id="date">
+    <div class="blinking-dot"></div> <!-- Punto parpadeante -->
+    <span id="date-text">00/00/0000</span> <!-- Fecha -->
+  </div>
 
   <script>
     function updateClock() {
@@ -71,7 +97,7 @@
       const day = String(now.getDate()).padStart(2, '0');
       const month = String(now.getMonth() + 1).padStart(2, '0');
       const year = now.getFullYear();
-      document.getElementById('date').textContent = `${day}/${month}/${year}`;
+      document.getElementById('date-text').textContent = `${day}/${month}/${year}`;
     }
 
     // Actualizar el reloj cada minuto y la fecha al iniciar
