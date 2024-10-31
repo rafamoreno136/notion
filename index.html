@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reloj</title>
+  <title>Reloj con Festividades</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     /* Estilos CSS */
@@ -51,14 +51,25 @@
       width: 120px;
       text-align: center;
       gap: 0.5rem;
+      position: relative;
     }
-    /* Punto rojo parpadeante */
+    /* Punto parpadeante */
     .blinking-dot {
       width: 12px;
       height: 12px;
-      background-color: white;
+      background-color: red;
       border-radius: 50%;
       animation: blink 2s infinite;
+      cursor: pointer;
+      transition: background-color 0.3s ease; /* Transición suave para el color */
+    }
+    /* Cambia a blanco cuando el cursor está sobre él */
+    .blinking-dot:hover {
+      background-color: white;
+    }
+    /* Estilo verde si es festividad */
+    .blinking-dot.festive {
+      background-color: green;
     }
     /* Animación de parpadeo */
     @keyframes blink {
@@ -68,6 +79,25 @@
       25%, 75% {
         opacity: 0;
       }
+    }
+    /* Tooltip de la festividad */
+    .tooltip {
+      visibility: hidden;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 0.5rem;
+      position: absolute;
+      top: -2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-size: 0.9rem;
+      z-index: 1;
+    }
+    .blinking-dot:hover + .tooltip {
+      visibility: visible;
     }
   </style>
 </head>
@@ -79,11 +109,26 @@
 
   <!-- Pastilla negra con la fecha y el punto parpadeante -->
   <div id="date">
-    <div class="blinking-dot"></div> <!-- Punto parpadeante -->
+    <div class="blinking-dot" id="dot"></div> <!-- Punto parpadeante -->
+    <span class="tooltip" id="tooltip-text">No hay festividad hoy</span> <!-- Tooltip -->
     <span id="date-text">00/00/0000</span> <!-- Fecha -->
   </div>
 
   <script>
+    const holidaysCatalonia = {
+      '01/01': 'Año Nuevo',
+      '06/01': 'Día de Reyes',
+      '01/05': 'Día del Trabajador',
+      '24/06': 'San Juan',
+      '11/09': 'Día Nacional de Cataluña',
+      '12/10': 'Día de la Hispanidad',
+      '01/11': 'Día de Todos los Santos',
+      '06/12': 'Día de la Constitución',
+      '08/12': 'Inmaculada Concepción',
+      '25/12': 'Navidad',
+      '26/12': 'San Esteban'
+    };
+
     function updateClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
@@ -98,6 +143,19 @@
       const month = String(now.getMonth() + 1).padStart(2, '0');
       const year = now.getFullYear();
       document.getElementById('date-text').textContent = `${day}/${month}/${year}`;
+
+      const todayKey = `${day}/${month}`;
+      const tooltipText = document.getElementById('tooltip-text');
+      const dot = document.getElementById('dot');
+      
+      // Verificar si hoy es festivo en Cataluña
+      if (holidaysCatalonia[todayKey]) {
+        tooltipText.textContent = holidaysCatalonia[todayKey];
+        dot.classList.add('festive'); // Agrega clase 'festive' si es festivo
+      } else {
+        tooltipText.textContent = 'No hay festividad hoy';
+        dot.classList.remove('festive'); // Remueve clase 'festive' si no es festivo
+      }
     }
 
     // Actualizar el reloj cada minuto y la fecha al iniciar
